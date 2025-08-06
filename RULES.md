@@ -319,13 +319,21 @@ def get_all_tiles(bag: TileBag) -> List[str]:
 
 ## Tools and Automation
 
-### 1. Linting and Formatting
-- **Black**: Use Black for code formatting
-- **Flake8**: Use Flake8 for linting
-- **MyPy**: Use MyPy for type checking
+### 1. Poetry Usage
+- **Always Use Poetry**: All Python-related commands should be run through Poetry
+- **Python Interpreter**: Use `poetry run python` instead of `python`
+- **Linting and Formatting**: Use `poetry run black`, `poetry run flake8`, `poetry run mypy`
+- **Testing**: Use `poetry run pytest` for running tests
+- **Package Management**: Use `poetry add` and `poetry remove` for dependencies
+- **Environment**: Use `poetry shell` to activate the virtual environment
+
+### 2. Linting and Formatting
+- **Black**: Use `poetry run black` for code formatting
+- **Flake8**: Use `poetry run flake8` for linting
+- **MyPy**: Use `poetry run mypy` for type checking
 - **Pre-commit Hooks**: Set up pre-commit hooks for automated checks
 
-### 2. CI/CD
+### 3. CI/CD
 - **Automated Testing**: Run tests automatically on all changes
 - **Code Quality**: Include code quality checks in CI
 - **Documentation**: Automate documentation generation

@@ -1,0 +1,40 @@
+{
+    "tiles": [
+        {
+            "name": "Grassland",
+            "count": 12
+        },
+        {
+            "name": "Desert",
+            "count": 6
+        },
+        {
+            "name": "Forest",
+            "count": 8
+        },
+        {
+            "name": "Mountain",
+            "count": 4
+        },
+        {
+            "name": "Ocean",
+            "count": 10
+        },
+        {
+            "name": "City",
+            "count": 3
+        },
+        {
+            "name": "Village",
+            "count": 5
+        },
+        {
+            "name": "Castle",
+            "count": 2
+        },
+        {
+            "name": "Cave",
+            "count": 4
+        }
+    ]
+} 
