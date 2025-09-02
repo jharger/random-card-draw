@@ -1,84 +1,84 @@
 #!/usr/bin/env python3
 """
-Main script for the Random Tile Bag project.
+Main script for the Random Card Deck project.
 
-This script provides a text-based interface for drawing tiles from a bag.
+This script provides a text-based interface for drawing cards from a deck.
 """
 
 import argparse
 import json
 import sys
-from random_tile_bag.tile_bag import TileBag
+from card_deck.card_deck import CardDeck
 
 
-def load_tiles_from_file(file_path: str) -> TileBag:
+def load_cards_from_file(file_path: str) -> CardDeck:
     """
-    Load tiles from a JSON file.
+    Load cards from a JSON file.
 
     Args:
         file_path: Path to the JSON file
 
     Returns:
-        A TileBag instance loaded with tiles from the file
+        A CardDeck instance loaded with cards from the file
 
     Raises:
         SystemExit: If the file cannot be loaded
     """
     try:
-        return TileBag.from_json_file(file_path)
+        return CardDeck.from_json_file(file_path)
     except FileNotFoundError:
-        print(f"Error: Tile file '{file_path}' not found.")
+        print(f"Error: Card file '{file_path}' not found.")
         sys.exit(1)
     except json.JSONDecodeError as e:
-        print(f"Error: Invalid JSON in tile file: {e}")
+        print(f"Error: Invalid JSON in card file: {e}")
         sys.exit(1)
     except (KeyError, ValueError) as e:
-        print(f"Error: Invalid tile file format: {e}")
+        print(f"Error: Invalid card file format: {e}")
         sys.exit(1)
 
 
 def print_help():
     """Display the help message with available commands."""
     print("\nAvailable commands:")
-    print("  d - Draw a random tile")
-    print("  r - Reset the bag to its original state")
+    print("  d - Draw a random card")
+    print("  r - Reset the deck to its original state")
     print("  q - Quit the application")
     print("  h, ? - Show this help message")
     print()
 
 
-def print_bag_status(bag: TileBag):
-    """Print the current status of the bag."""
-    print(f"\nBag contains {bag.bag_size} tiles")
-    if bag.drawn_tiles:
-        print(f"Drawn tiles: {', '.join(bag.drawn_tiles)}")
+def print_deck_status(deck: CardDeck):
+    """Print the current status of the deck."""
+    print(f"\nDeck contains {deck.deck_size} cards")
+    if deck.drawn_cards:
+        print(f"Drawn cards: {', '.join(deck.drawn_cards)}")
     print()
 
 
 def main():
     """Main function providing the text-based interface."""
     parser = argparse.ArgumentParser(
-        description="Random Tile Bag - Draw tiles from a bag interactively"
+        description="Random Card Deck - Draw cards from a deck interactively"
     )
     parser.add_argument(
-        "--tiles",
-        default="data/tiles.json",
+        "--cards",
+        default="data/cards.json",
         help=(
-            "Path to the JSON file containing tile definitions "
-            "(default: data/tiles.json)"
+            "Path to the JSON file containing card definitions "
+            "(default: data/cards.json)"
         ),
     )
 
     args = parser.parse_args()
 
-    # Load tiles from the specified file
-    print("Loading tiles from:", args.tiles)
-    bag = load_tiles_from_file(args.tiles)
+    # Load cards from the specified file
+    print("Loading cards from:", args.cards)
+    deck = load_cards_from_file(args.cards)
 
-    print(f"Loaded {bag.total_tiles} tiles into the bag")
-    print_bag_status(bag)
+    print(f"Loaded {deck.total_cards} cards into the deck")
+    print_deck_status(deck)
 
-    print("Random Tile Bag - Interactive Mode")
+    print("Random Card Deck - Interactive Mode")
     print("Type 'h' or '?' for help")
 
     while True:
@@ -86,17 +86,17 @@ def main():
             command = input("> ").strip().lower()
 
             if command == "d":
-                if bag.is_empty():
-                    print("The bag is empty!")
+                if deck.is_empty():
+                    print("The deck is empty!")
                 else:
-                    tile = bag.draw_tile()
-                    print(f"Drew: {tile}")
-                print_bag_status(bag)
+                    card = deck.draw_card()
+                    print(f"Drew: {card}")
+                print_deck_status(deck)
 
             elif command == "r":
-                bag.reset()
-                print("Bag reset to original state")
-                print_bag_status(bag)
+                deck.reset()
+                print("Deck reset to original state")
+                print_deck_status(deck)
 
             elif command in ["q", "quit", "exit"]:
                 print("Goodbye!")

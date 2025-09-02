@@ -1,7 +1,7 @@
 [project]
-name = "random-tile-bag"
+name = "random-card-draw"
 version = "0.1.0"
-description = "A program for testing board game mechanics by simulating drawing a random tile from a bag."
+description = "A program for testing board game mechanics by simulating various card draws"
 authors = [
     {name = "John Harger"}
 ]

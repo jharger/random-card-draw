@@ -1,5 +1,5 @@
 {
-    "tiles": [
+    "cards": [
         {
             "name": "Grassland",
             "count": 12
@@ -37,4 +37,4 @@
             "count": 4
         }
     ]
-} 
+}
