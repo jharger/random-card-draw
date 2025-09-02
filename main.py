@@ -61,19 +61,29 @@ def main():
         description="Random Card Deck - Draw cards from a deck interactively"
     )
     parser.add_argument(
-        "--cards",
-        default="data/cards.json",
+        "--deck",
+        default="example_deck",
         help=(
-            "Path to the JSON file containing card definitions "
-            "(default: data/cards.json)"
+            "Name of the deck to load "
+            "(default: example_deck)"
+        ),
+    )
+    parser.add_argument(
+        "--deck-dir",
+        default="data/example_deck",
+        help=(
+            "Directory containing deck files "
+            "(default: data/example_deck)"
         ),
     )
 
     args = parser.parse_args()
 
-    # Load cards from the specified file
-    print("Loading cards from:", args.cards)
-    deck = load_cards_from_file(args.cards)
+    # Load cards from the specified deck
+    import os
+    cards_file_path = os.path.join(args.deck_dir, "cards.json")
+    print(f"Loading deck '{args.deck}' from:", cards_file_path)
+    deck = load_cards_from_file(cards_file_path)
 
     print(f"Loaded {deck.total_cards} cards into the deck")
     print_deck_status(deck)
