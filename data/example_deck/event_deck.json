@@ -1,5 +1,6 @@
 {
     "name": "event_deck",
+    "reshuffle": true,
     "cards": [
         {
             "name": "Famine",

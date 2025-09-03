@@ -44,6 +44,7 @@ def print_help():
     print("\nAvailable commands:")
     print("  d - Draw a random card")
     print("  r - Reset the deck to its original state")
+    print("  s - Show the state of all loaded decks")
     print("  q - Quit the application")
     print("  h, ? - Show this help message")
     print()
@@ -62,6 +63,25 @@ def print_deck_status(deck_manager: DeckManager, deck_name: str):
                 else:
                     card_names.append(str(card))
             print(f"Drawn cards: {', '.join(card_names)}")
+    print()
+
+
+def print_all_decks_status(deck_manager: DeckManager):
+    """Print the current status of all loaded decks."""
+    print(f"\nStatus of all loaded decks ({len(deck_manager.decks)} total):")
+    for deck_name, deck in deck_manager.decks.items():
+        print(f"\nDeck '{deck_name}':")
+        print(f"  Total cards: {deck.total_cards}")
+        print(f"  Cards remaining: {deck.deck_size}")
+        print(f"  Cards drawn: {len(deck.drawn_cards)}")
+        if deck.drawn_cards:
+            card_names = []
+            for card in deck.drawn_cards:
+                if isinstance(card, Card):
+                    card_names.append(card.name)
+                else:
+                    card_names.append(str(card))
+            print(f"  Drawn cards: {', '.join(card_names)}")
     print()
 
 
@@ -149,6 +169,9 @@ def main():
                     deck.reset()
                 print("All decks reset to original state")
                 print_deck_status(deck_manager, args.deck)
+
+            elif command == "s":
+                print_all_decks_status(deck_manager)
 
             elif command in ["q", "quit", "exit"]:
                 print("Goodbye!")

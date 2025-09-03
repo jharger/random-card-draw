@@ -1,0 +1,3 @@
+We keep centralized instructions for working in this repo in `RULES.md`.
+
+Make sure you've read `RULES.md` before making any changes to this repo.

@@ -237,6 +237,17 @@ def test_draw_tile_from_empty_bag_raises_error():
         bag.draw_tile()
 ```
 
+### 3. Unit Testing Guide
+For detailed instructions on adding new unit tests to this project, see the comprehensive guide:
+- **Unit Testing Guide**: [.ai/rules/unit_testing_guide.md](.ai/rules/unit_testing_guide.md)
+
+This guide covers:
+- Project testing overview and current structure
+- Step-by-step instructions for adding new tests
+- Testing patterns and best practices used in this project
+- Running tests and adding test dependencies
+- Complete examples and templates
+
 ## Code Organization
 
 ### 1. File Structure

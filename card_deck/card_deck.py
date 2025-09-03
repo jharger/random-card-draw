@@ -124,18 +124,20 @@ class CardDeck:
     It supports adding cards, drawing cards, and tracking the deck's state.
     """
 
-    def __init__(self, cards: Optional[List[Any]] = None, name: str = ""):
+    def __init__(self, cards: Optional[List[Any]] = None, name: str = "", reshuffle: bool = False):
         """
         Initialize a new card deck.
 
         Args:
             cards: Optional list of cards to start with in the deck
             name: Name of the deck
+            reshuffle: If True, automatically reshuffle when deck is empty and card needs to be drawn
         """
         self._cards = cards.copy() if cards else []
         self._drawn_cards = []
         self._original_cards = cards.copy() if cards else []
         self.name = name
+        self.reshuffle = reshuffle
 
     @classmethod
     def from_json_file(cls, file_path: str) -> "CardDeck":
@@ -160,6 +162,7 @@ class CardDeck:
             raise KeyError("JSON file must contain a 'cards' key")
 
         deck_name = data.get("name", os.path.splitext(os.path.basename(file_path))[0])
+        reshuffle = data.get("reshuffle", False)
 
         cards = []
         for card_def in data["cards"]:
@@ -183,7 +186,7 @@ class CardDeck:
                 # Backward compatibility: store as string for simple cards
                 cards.extend([name] * count)
 
-        return cls(cards, name=deck_name)
+        return cls(cards, name=deck_name, reshuffle=reshuffle)
 
     def reset(self) -> None:
         """
@@ -215,10 +218,17 @@ class CardDeck:
         Draw a random card from the deck.
 
         Returns:
-            The drawn card, or None if the deck is empty
+            The drawn card, or None if the deck is empty and not reshuffleable
         """
         if not self._cards:
-            return None
+            if self.reshuffle and self._drawn_cards:
+                # Auto-reshuffle: move all drawn cards back to deck
+                self._cards = self._drawn_cards.copy()
+                self._drawn_cards = []
+                self.shuffle()
+                print(f"Deck '{self.name}' was empty and has been reshuffled!")
+            else:
+                return None
 
         card = random.choice(self._cards)
         self._cards.remove(card)
