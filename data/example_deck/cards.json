@@ -3,39 +3,55 @@
     "cards": [
         {
             "name": "Grassland",
+            "description": "Rolling green plains stretch as far as the eye can see, dotted with wildflowers and grazing animals.",
             "count": 12
         },
         {
             "name": "Desert",
+            "description": "Vast expanses of sand dunes and rocky outcrops under a blazing sun, where only the hardiest creatures survive.",
             "count": 6
         },
         {
             "name": "Forest",
+            "description": "Dense woodlands filled with towering trees, mysterious shadows, and the sounds of wildlife.",
             "count": 8
         },
         {
             "name": "Mountain",
+            "description": "Towering peaks crowned with snow, their slopes steep and treacherous but rich with minerals.",
             "count": 4
         },
         {
             "name": "Ocean",
+            "description": "Endless waters that stretch to the horizon, teeming with marine life and hidden depths.",
             "count": 10
         },
         {
             "name": "City",
+            "description": "A bustling metropolis where thousands of people live, work, and trade in crowded streets.",
             "count": 3
         },
         {
             "name": "Village",
+            "description": "A small, peaceful settlement where everyone knows their neighbors and life moves at a gentle pace.",
             "count": 5
         },
         {
             "name": "Castle",
+            "description": "A mighty fortress of stone and iron, home to nobles and defended by loyal knights.",
             "count": 2
         },
         {
             "name": "Cave",
+            "description": "Dark underground chambers that may hide treasure, danger, or ancient secrets.",
             "count": 4
+        },
+        {
+            "name": "Event",
+            "description": "Something significant is about to happen that will change the course of history.",
+            "draw_from": "event_deck",
+            "draw_count": 2,
+            "count": 1
         }
     ]
 }

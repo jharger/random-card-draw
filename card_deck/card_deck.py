@@ -4,7 +4,115 @@ Card Deck implementation for simulating random card drawing from a deck.
 
 import json
 import random
-from typing import List, Optional, Any
+import os
+from typing import List, Optional, Any, Dict, Union
+
+
+class Card:
+    """
+    Represents a single card with its properties.
+    """
+    
+    def __init__(self, name: str, description: str = "", draw_from: Optional[str] = None, draw_count: int = 0):
+        """
+        Initialize a card.
+        
+        Args:
+            name: The name of the card
+            description: Description of the card
+            draw_from: Optional name of another deck to draw from when this card is drawn
+            draw_count: Number of cards to draw from the other deck (default 0)
+        """
+        self.name = name
+        self.description = description
+        self.draw_from = draw_from
+        self.draw_count = draw_count if draw_from else 0
+    
+    def __str__(self):
+        """String representation of the card."""
+        return self.name
+    
+    def __repr__(self):
+        """Detailed representation of the card."""
+        return f"Card(name='{self.name}', description='{self.description}', draw_from='{self.draw_from}', draw_count={self.draw_count})"
+
+
+class DeckManager:
+    """
+    Manages multiple decks and their interactions.
+    """
+    
+    def __init__(self):
+        """Initialize the deck manager."""
+        self.decks: Dict[str, 'CardDeck'] = {}
+    
+    def load_decks_from_directory(self, directory: str) -> None:
+        """
+        Load all deck files from a directory.
+        
+        Args:
+            directory: Directory containing deck JSON files
+            
+        Raises:
+            FileNotFoundError: If directory doesn't exist
+            ValueError: If deck validation fails
+        """
+        if not os.path.exists(directory):
+            raise FileNotFoundError(f"Directory '{directory}' not found")
+        
+        # Load all JSON files in the directory
+        for filename in os.listdir(directory):
+            if filename.endswith('.json'):
+                file_path = os.path.join(directory, filename)
+                try:
+                    deck = CardDeck.from_json_file(file_path)
+                    self.decks[deck.name] = deck
+                except Exception as e:
+                    print(f"Warning: Failed to load deck from {file_path}: {e}")
+        
+        # Validate that all referenced decks exist
+        self._validate_deck_references()
+    
+    def _validate_deck_references(self) -> None:
+        """
+        Validate that all deck references in cards exist.
+        
+        Raises:
+            ValueError: If a referenced deck doesn't exist
+        """
+        for deck_name, deck in self.decks.items():
+            for card in deck._original_cards:
+                if isinstance(card, Card) and card.draw_from:
+                    if card.draw_from not in self.decks:
+                        raise ValueError(f"Card '{card.name}' in deck '{deck_name}' references unknown deck '{card.draw_from}'")
+    
+    def get_deck(self, name: str) -> Optional['CardDeck']:
+        """Get a deck by name."""
+        return self.decks.get(name)
+    
+    def draw_card_with_extras(self, deck_name: str) -> Dict[str, Any]:
+        """
+        Draw a card and any additional cards it triggers.
+        
+        Args:
+            deck_name: Name of the deck to draw from
+            
+        Returns:
+            Dictionary containing the main card and any extra cards drawn
+        """
+        deck = self.get_deck(deck_name)
+        if not deck or deck.is_empty():
+            return {"main_card": None, "extra_cards": []}
+        
+        main_card = deck.draw_card()
+        extra_cards = []
+        
+        if isinstance(main_card, Card) and main_card.draw_from and main_card.draw_count > 0:
+            extra_deck = self.get_deck(main_card.draw_from)
+            if extra_deck:
+                extra_cards = extra_deck.draw_cards(main_card.draw_count)
+        
+        return {"main_card": main_card, "extra_cards": extra_cards}
 
 
 class CardDeck:
@@ -16,16 +124,18 @@ class CardDeck:
     It supports adding cards, drawing cards, and tracking the deck's state.
     """
 
-    def __init__(self, cards: Optional[List[Any]] = None):
+    def __init__(self, cards: Optional[List[Any]] = None, name: str = ""):
         """
         Initialize a new card deck.
 
         Args:
             cards: Optional list of cards to start with in the deck
+            name: Name of the deck
         """
         self._cards = cards.copy() if cards else []
         self._drawn_cards = []
         self._original_cards = cards.copy() if cards else []
+        self.name = name
 
     @classmethod
     def from_json_file(cls, file_path: str) -> "CardDeck":
@@ -49,6 +159,8 @@ class CardDeck:
         if "cards" not in data:
             raise KeyError("JSON file must contain a 'cards' key")
 
+        deck_name = data.get("name", os.path.splitext(os.path.basename(file_path))[0])
+
         cards = []
         for card_def in data["cards"]:
             if "name" not in card_def or "count" not in card_def:
@@ -56,14 +168,22 @@ class CardDeck:
 
             name = card_def["name"]
             count = card_def["count"]
+            description = card_def.get("description", "")
+            draw_from = card_def.get("draw_from")
+            draw_count = card_def.get("draw_count", 0)
 
             if not isinstance(count, int) or count <= 0:
                 raise ValueError("Card count must be a positive integer")
 
-            # Add the card 'count' number of times
-            cards.extend([name] * count)
+            # Create Card objects if any advanced properties are present
+            if description or draw_from:
+                card = Card(name=name, description=description, draw_from=draw_from, draw_count=draw_count)
+                cards.extend([card] * count)
+            else:
+                # Backward compatibility: store as string for simple cards
+                cards.extend([name] * count)
 
-        return cls(cards)
+        return cls(cards, name=deck_name)
 
     def reset(self) -> None:
         """

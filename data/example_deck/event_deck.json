@@ -1,0 +1,105 @@
+{
+    "name": "event_deck",
+    "cards": [
+        {
+            "name": "Famine",
+            "description": "A terrible drought has struck the land, causing crops to fail and livestock to perish.",
+            "count": 1
+        },
+        {
+            "name": "Prosperity",
+            "description": "The harvest is bountiful and trade flourishes, bringing wealth to all.",
+            "count": 1
+        },
+        {
+            "name": "Plague",
+            "description": "A mysterious disease spreads through the population, causing widespread panic.",
+            "count": 1
+        },
+        {
+            "name": "Festival",
+            "description": "The people celebrate with grand festivities, music, and dancing in the streets.",
+            "count": 1
+        },
+        {
+            "name": "Earthquake",
+            "description": "The ground shakes violently, toppling buildings and creating deep cracks in the earth.",
+            "count": 1
+        },
+        {
+            "name": "Solar Eclipse",
+            "description": "The sun is blotted out by the moon, casting an eerie darkness over the land.",
+            "count": 1
+        },
+        {
+            "name": "Meteor Shower",
+            "description": "Brilliant streaks of light fall from the heavens, inspiring awe and wonder.",
+            "count": 1
+        },
+        {
+            "name": "Volcanic Eruption",
+            "description": "A dormant volcano awakens, spewing ash and molten rock into the sky.",
+            "count": 1
+        },
+        {
+            "name": "Golden Age",
+            "description": "An era of unprecedented peace, learning, and artistic achievement begins.",
+            "count": 1
+        },
+        {
+            "name": "Wild Hunt",
+            "description": "Mystical hunters ride through the night sky, their howls echoing across the land.",
+            "count": 1
+        },
+        {
+            "name": "Great Storm",
+            "description": "Fierce winds and torrential rains lash the countryside for days on end.",
+            "count": 1
+        },
+        {
+            "name": "Discovery",
+            "description": "Ancient ruins are uncovered, revealing lost knowledge and forgotten treasures.",
+            "count": 1
+        },
+        {
+            "name": "Rebellion",
+            "description": "The oppressed rise up against their rulers, demanding freedom and justice.",
+            "count": 1
+        },
+        {
+            "name": "Divine Blessing",
+            "description": "The gods smile upon the land, bestowing their favor and protection.",
+            "count": 1
+        },
+        {
+            "name": "Invasion",
+            "description": "Foreign armies march across the borders, bringing war and conquest.",
+            "count": 1
+        },
+        {
+            "name": "Magic Surge",
+            "description": "The arcane energies of the world grow stronger, enabling great feats of magic.",
+            "count": 1
+        },
+        {
+            "name": "Great Migration",
+            "description": "Vast herds of animals or groups of people move across the land seeking new homes.",
+            "count": 1
+        },
+        {
+            "name": "Cursed Night",
+            "description": "Dark magic fills the air, causing nightmares and strange transformations.",
+            "count": 1
+        },
+        {
+            "name": "Renaissance",
+            "description": "A flowering of art, science, and culture spreads throughout the realm.",
+            "count": 1
+        },
+        {
+            "name": "Time Anomaly",
+            "description": "The flow of time becomes unstable, causing past and future to blur together.",
+            "count": 1
+        }
+    ]
+}
